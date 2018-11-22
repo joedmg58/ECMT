@@ -14,12 +14,12 @@ var projectSchema = new Schema({
         name: { type: String, required: true },
         location: String,
         circuits: [{
-            number: Number,
+            ckt: Number,
             description: String,
-            breaker: [{
+            breaker: {
                 poles: Number,
                 amps: Number
-            }]
+            }
         }]
     }]
 });
