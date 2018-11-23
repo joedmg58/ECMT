@@ -2,28 +2,40 @@ const mongoose = require('mongoose');
 const db = require('../models');
 
 const crypto = require('crypto');
-const hash = crypto.createHash('sha-256');
+const hash = crypto.createHash('sha256');
 
 const password = 'password';
 hash.update( password );
-codedPassword = hash.digest('hex');
+const codedPassword = hash.digest('hex');
+
+var isoDate = new Date().toISOString();
 
 
 //user collection seeds
 const userSeed = [
     {
-        firstname: "Joed",
-        lastname: "Machado",
+        firstName: "Joed",
+        lastName: "Machado",
         email: "joedmg58@gmail.com",
         password: codedPassword,
-        role: "user"
+        role: "user",
+        date: isoDate
     },
     {
-        firstname: "Luis",
-        lastname: "Viera",
+        firstName: "Eddy",
+        lastName: "Rodriguez",
+        email: "eddy72@hotmail.com",
+        password: codedPassword,
+        role: "user",
+        date: isoDate
+    },
+    {
+        firstName: "Luis",
+        lastName: "Viera",
         email: "admin@truepower.com",
         password: codedPassword,
-        role: "manager"
+        role: "manager",
+        date: isoDate
     }
 ];
 
@@ -133,48 +145,103 @@ const projectSeed = [
     }        
 ]
 
-//Evaluation collection seeds
-const evalSeed = [
+//Contractors collection seeds
+
+contractorSeed = [
     {
-        userId: null,
-        surveyName: "JS",
-        answers: [0, 0, 1],
-        points: 100
+        name: "Coble Builders",
+        address: "Coble road 4600",
+        contacts: [
+            {
+                fullName: "John",
+                phoneNo: "3053331234"
+            },
+            {
+                fullName: "Christie",
+                phoneNo: "7862229876"
+            },
+            {
+                fullName: "Omar",
+                phoneNo: "3057775678"
+            }
+        ]
     },
     {
-        userId: null,
-        surveyName: "CSS",
-        answers: [2, 1, 3],
-        points: 100
-    },
-    {
-        userId: null,
-        surveyName: "HTML",
-        answers: [0, 2, 3],
-        points: 66.66
-    },
-    {
-        userId: null,
-        surveyName: "HTML",
-        answers: [0, 2, 0],
-        points: 100
-    },
-    {
-        userId: null,
-        surveyName: "HTML",
-        answers: [0, 2, 0],
-        points: 100
+        name: "Atlantic Coast",
+        address: "Atlantic Dr. 8200",
+        contacts: [
+            {
+                fullName: "Albert",
+                phoneNo: "3051112345"
+            },
+            {
+                fullName: "Many",
+                phoneNo: "7865552345"
+            }
+        ]
     }
-];
+]
+
+//Parking tickets collection seeds
+
+parkingSeed = [
+    {
+        userId: "",
+        tickets: [
+            {
+                date: isoDate,
+                jobSite: "St. Regis 2500",
+                amount: 16.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            },
+            {
+                date: isoDate,
+                jobSite: "Surf Club 803",
+                amount: 16.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            },
+            {
+                date: isoDate,
+                jobSite: "La Petite Muse Hotel",
+                amount: 12.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            }
+        ]
+    },
+    {
+        userId: "",
+        tickets: [
+            {
+                date: isoDate,
+                jobSite: "St. Regis 2500",
+                amount: 16.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            },
+            {
+                date: isoDate,
+                jobSite: "Golden Beach",
+                amount: 16.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            },
+            {
+                date: isoDate,
+                jobSite: "Continuum 701",
+                amount: 18.00,
+                probe: "../public/img/parking_tickets/ticket001.png"
+            }
+        ] 
+    }
+]
+
 
 function populateUser() {
     console.log('Inserting users...');
     db.User
-        .remove({})
+        .deleteMany({})
         .then(() => db.User.collection.insertMany(userSeed))
         .then(data => {
-            console.log(data.result.n + " user records inserted!");
-            populateSurvey();
+            console.log( "=> " + data.result.n + " user records inserted!");
+            populateContractor();
         })
         .catch(err => {
             console.error(err);
@@ -183,14 +250,29 @@ function populateUser() {
 
 }
 
-function populateSurvey() {
-    console.log('inserting surveys...')
-    db.Survey
-        .remove({})
-        .then(() => db.Survey.collection.insertMany(surveySeed))
-        .then(data => {
-            console.log(data.result.n + " survey records inserted!");
-            populateEvaluation();
+function populateContractor() {
+    console.log('Inserting contractors...');
+    db.Contractor
+        .deleteMany({})
+        .then( () => db.Contractor.collection.insertMany(contractorSeed) )
+        .then( data => {
+            console.log( "=> " + data.result.n + " contractor records inserted!");
+            populateProject();            
+        } )
+        .catch( function(err) {
+            console.error(err);
+            process.exit(1);
+        });
+}
+
+function populateProject() {
+    console.log('Inserting projects...');
+    db.Project
+        .deleteMany({})
+        .then( () => db.Project.collection.insertMany(projectSeed) )
+        .then( data => {
+            console.log( "=> " + data.result.n + " project records inserted!");
+            populateParking();
         })
         .catch(err => {
             console.error(err);
@@ -198,40 +280,36 @@ function populateSurvey() {
         });
 }
 
-function populateEvaluation() {
-    console.log('inserting evaluations...');
-    db.Evaluation
-        .remove({})
-        //.then(() => db.Evaluation.collection.insertMany(evalSeed))
+function populateParking() {
+    console.log('Inserting parking tickets...');
+    db.Parking
+        .deleteMany({})
         .then(() => {
-            db.User.find({}, function (err, doc) {
-                evalSeed[0].userId = doc[2]._id;
-                evalSeed[1].userId = doc[1]._id;
-                evalSeed[2].userId = doc[0]._id;
-                evalSeed[3].userId = doc[1]._id;
-                evalSeed[4].userId = doc[3]._id;
+            db.User.find({}, function(err, doc) {
+                parkingSeed[0].userId = doc[0]._id;
+                parkingSeed[1].userId = doc[1]._id;
 
-                db.Evaluation.collection.insertMany(evalSeed)
+                db.Parking.collection.insertMany(parkingSeed)
                     .then(data => {
-                        console.log(data.result.n + " evaluation records inserted!");
+                        console.log( "=> " + data.result.n + " parking records inserted!");
                         process.exit(0);
                     })
             })
         })
-        .catch(err => {
+        .catch(errm=> {
             console.error(err);
             process.exit(1);
         });
 }
 
+//------------------------------------------------------
 
 
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ECMT").then(
-    () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ECMT", {useNewUrlParser: true} )
+    .then( () => { 
         populateUser();
     },
-    err => { /** handle initial connection error */
+    err => { 
         console.log('Error connection to MongoDB \n' + error);
     }
 );

@@ -24,6 +24,6 @@ var projectSchema = new Schema({
     }]
 });
 
-var User = mongoose.model("Project", projectSchema);
+var Project = mongoose.model("Project", projectSchema);
 
 module.exports = Project;

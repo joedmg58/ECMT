@@ -1,10 +1,11 @@
 {
   "name": "ecmt",
   "version": "1.0.0",
-  "description": "Electrical Contractor Management Toll App",
+  "description": "Electrical Contractor Management Tool App",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node scripts/seedDB.js",
     "start": "node server.js"
   },
   "repository": {
