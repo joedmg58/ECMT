@@ -3,5 +3,5 @@ module.exports = {
     Contractor: require("./model.contractor"),
     Project: require("./model.project"),
     Parking: require("./model.parking")
-  };
+};
   

@@ -192,19 +192,19 @@ parkingSeed = [
                 date: isoDate,
                 jobSite: "St. Regis 2500",
                 amount: 16.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             },
             {
                 date: isoDate,
                 jobSite: "Surf Club 803",
                 amount: 16.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             },
             {
                 date: isoDate,
                 jobSite: "La Petite Muse Hotel",
                 amount: 12.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             }
         ]
     },
@@ -215,19 +215,19 @@ parkingSeed = [
                 date: isoDate,
                 jobSite: "St. Regis 2500",
                 amount: 16.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             },
             {
                 date: isoDate,
                 jobSite: "Golden Beach",
                 amount: 16.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             },
             {
                 date: isoDate,
                 jobSite: "Continuum 701",
                 amount: 18.00,
-                probe: "../public/img/parking_tickets/ticket001.png"
+                probe: "../public/assets/img/parking_tickets/ticket001.png"
             }
         ] 
     }
